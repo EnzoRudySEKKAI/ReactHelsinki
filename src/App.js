@@ -1,57 +1,46 @@
+import { useState } from 'react'
+
+const History = ({allClicks}) => {
+    if (allClicks.length === 0) {
+        return (
+            <div>
+                the app is used by pressing the buttons
+            </div>
+        )
+    }
+    return (
+        <div>
+            button press history: {allClicks.join(' ')}
+        </div>
+    )
+}
+
+const Button = ({ handleClick, text }) => (
+    <button onClick={handleClick}>
+        {text}
+    </button>
+)
 const App = () => {
-    const course = {
-        name:'Half Stack application development',
-        parts : [{
-            name: 'Fundamentals of React',
-            exercises: 10
-        },
-        {
-            name:'Using props to pass data',
-            exercises: 7
-        },
-        {
-            name: 'State of a component',
-            exercises: 14
-        }]
+    const [clicks, setClicks] = useState({
+        left: 0, right: 0, allClicks: []
+    })
+
+    const handleLeftClick = (side) => () =>
+        setClicks({ ...clicks, left: clicks.left + 1 , allClicks: clicks.allClicks.concat(side) })
+
+    const handleRightClick = (side) => {
+        setClicks({ ...clicks, right: clicks.right + 1 , allClicks: clicks.allClicks.concat(side) })
     }
 
+
     return (
         <div>
-            <Header course={course.name}/>
-            <Content parts={course.parts} />
-            <Total parts={course.parts} />
+            {clicks.left}
+            <Button handleClick={handleLeftClick("L")} text="left" />
+            <Button handleClick={() => handleRightClick("R")} text="right" />
+            {clicks.right}
+            <History allClicks={clicks.allClicks} />
         </div>
-    )
-}
-
-const Header = (props) => {
-    return (
-        <h1>{props.course}</h1>
-    )
-}
-
-const Content = (props) => {
-    const partsp = props.parts.map((part, index) => <Part part={part.name} exercises={part.exercises} key={index} />)
-    return (
-        <div>
-            {partsp}
-        </div>
-    )
-}
-
-const Part = (props) => {
-    return (
-        <p>{props.part} {props.exercises}</p>
-    )
-}
-
-const Total = (props) => {
-    let max = 0;
-    props.parts.forEach(part => {
-        max += part.exercises
-    })
-    return (
-        <p>Number of exercises {max}</p>
     )
 }
 
