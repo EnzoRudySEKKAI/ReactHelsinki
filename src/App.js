@@ -10,9 +10,10 @@ const Button = ({ handleClick, text }) => {
 
 const StatisticLine = ({ text, value }) => {
     return (
-        <div>
-            <p>{text} {value}</p>
-        </div>
+        <tr>
+            <td>{text}</td>
+            <td>{value}</td>
+        </tr>
     )
 }
 
@@ -27,15 +28,18 @@ const Statistics = ({ good, neutral, bad , all, average, positive}) => {
         )
     }
     return (
-        <div>
-            <h2>statistics</h2>
-            <StatisticLine text={"good"} value={good} />
-            <StatisticLine text={"neutral"} value={neutral} />
-            <StatisticLine text={"bad"} value={bad} />
-            <StatisticLine text={"all"} value={all} />
-            <StatisticLine text={"average"} value={average / all} />
-            <StatisticLine text={"positive"} value={positive + " %"} />
-        </div>
+        <table>
+            <tbody>
+                <StatisticLine text={"good"} value={good} />
+                <StatisticLine text={"neutral"} value={neutral} />
+                <StatisticLine text={"bad"} value={bad} />
+                <StatisticLine text={"all"} value={all} />
+                <StatisticLine text={"average"} value={average / all} />
+                <StatisticLine text={"positive"} value={positive + " %"} />
+            </tbody>
+        </table>
+
+
     )
 }
 const App = () => {
@@ -88,9 +92,7 @@ const App = () => {
             <Button handleClick={handleGoodClick} text={"good"} />
             <Button handleClick={handleNeutralClick} text={"neutral"} />
             <Button handleClick={handleBadClick} text={"bad"} />
-
             <Statistics good={review.good} neutral={review.neutral} bad={review.bad} all={review.all} average={review.average} positive={review.positive} />
-
         </div>
     )
 }
