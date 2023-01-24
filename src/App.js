@@ -6,6 +6,18 @@ const Button = ({ handleClick, text }) => (
     </button>
 )
 
+const BestAnecdote = ({ anecdotes, votes }) => {
+    const maxVotes = Math.max(...votes)
+    const maxVotesIndex = votes.indexOf(maxVotes)
+    return (
+        <div>
+            <h1>Anecdote with most votes</h1>
+            <p>{anecdotes[maxVotesIndex]}</p>
+            <p>has {maxVotes} votes</p>
+        </div>
+    )
+}
+
 const App = () => {
     const anecdotes = [
         'If it hurts, do it more often.',
@@ -45,6 +57,7 @@ const App = () => {
             <p>has {votes[selected] ? votes[selected] : 0} votes</p>
             <Button handleClick={handleNextClick} text='next anecdote' />
             <Button handleClick={handleVoteClick} text='vote' />
+            <BestAnecdote anecdotes={anecdotes} votes={votes} />
         </div>
     )
 }
