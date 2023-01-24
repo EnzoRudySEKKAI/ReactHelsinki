@@ -1,98 +1,37 @@
 import { useState } from 'react'
 
-const Button = ({ handleClick, text }) => {
-    return (
-        <button onClick={handleClick}>
-            {text}
-        </button>
-    )
-}
+const Button = ({ handleClick, text }) => (
+    <button onClick={handleClick}>
+        {text}
+    </button>
+)
 
-const StatisticLine = ({ text, value }) => {
-    return (
-        <tr>
-            <td>{text}</td>
-            <td>{value}</td>
-        </tr>
-    )
-}
-
-const Statistics = ({ good, neutral, bad , all, average, positive}) => {
-
-    if (all === 0) {
-        return (
-            <div>
-                <h1>statistics</h1>
-                <p>No feedback given</p>
-            </div>
-        )
-    }
-    return (
-        <table>
-            <tbody>
-                <StatisticLine text={"good"} value={good} />
-                <StatisticLine text={"neutral"} value={neutral} />
-                <StatisticLine text={"bad"} value={bad} />
-                <StatisticLine text={"all"} value={all} />
-                <StatisticLine text={"average"} value={average / all} />
-                <StatisticLine text={"positive"} value={positive + " %"} />
-            </tbody>
-        </table>
-
-
-    )
-}
 const App = () => {
-    // save clicks of each button to its own state
-    const [review,setReview] = useState({
-        good: 0,
-        neutral: 0,
-        bad: 0,
-        all: 0,
-        average: 0,
-        positive: 0
-    })
+    const anecdotes = [
+        'If it hurts, do it more often.',
+        'Adding manpower to a late software project makes it later!',
+        'The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+        'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+        'Premature optimization is the root of all evil.',
+        'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+        'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
+        'The only way to go fast, is to go well.'
+    ]
 
-    const handleGoodClick = () => {
-        const setGood = {
-            ...review,
-            good: review.good + 1,
-            all: review.all + 1,
-            average: review.average + 1,
-            positive: (review.good+1) * 100 / (review.all+1)
-        }
+    const [selected, setSelected] = useState(0)
 
-        setReview(setGood)
+    const getRandomInt = (max) => {
+        return Math.floor(Math.random() * Math.floor(max));
     }
 
-    const handleNeutralClick = () => {
-        const setNeutral = {
-            ...review,
-            neutral: review.neutral + 1,
-            all: review.all + 1,
-            positive: review.good * 100 / (review.all+1)
-        }
-        setReview(setNeutral)
-    }
-
-    const handleBadClick = () => {
-        const setBad = {
-            ...review,
-            bad: review.bad + 1,
-            all: review.all + 1,
-            average: review.average - 1,
-            positive: review.good * 100 / (review.all+1)
-        }
-        setReview(setBad)
+    const handleNextClick = () => {
+        setSelected(getRandomInt(anecdotes.length))
     }
 
     return (
         <div>
-            <h1>give feedback</h1>
-            <Button handleClick={handleGoodClick} text={"good"} />
-            <Button handleClick={handleNeutralClick} text={"neutral"} />
-            <Button handleClick={handleBadClick} text={"bad"} />
-            <Statistics good={review.good} neutral={review.neutral} bad={review.bad} all={review.all} average={review.average} positive={review.positive} />
+            <p>{anecdotes[selected]}</p>
+            <Button handleClick={handleNextClick} text='next anecdote' />
         </div>
     )
 }
