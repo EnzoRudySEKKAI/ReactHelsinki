@@ -7,22 +7,62 @@ const Button = ({ handleClick, text }) => {
         </button>
     )
 }
+
+const Statistics = ({ good, neutral, bad , all, average, positive}) => {
+    return (
+        <div>
+            <h2>statistics</h2>
+            <p>good {good}</p>
+            <p>neutral {neutral}</p>
+            <p>bad {bad}</p>
+            <p>all {all}</p>
+            <p>average {average}</p>
+            <p>positive {positive} %</p>
+        </div>
+    )
+}
 const App = () => {
     // save clicks of each button to its own state
-    const [good, setGood] = useState(0)
-    const [neutral, setNeutral] = useState(0)
-    const [bad, setBad] = useState(0)
+    const [review,setReview] = useState({
+        good: 0,
+        neutral: 0,
+        bad: 0,
+        all: 0,
+        average: 0,
+        positive: 0
+    })
 
     const handleGoodClick = () => {
-        setGood(good + 1)
+        const setGood = {
+            ...review,
+            good: review.good + 1,
+            all: review.all + 1,
+            average: review.average + 1,
+            positive: (review.good+1) * 100 / (review.all+1)
+        }
+
+        setReview(setGood)
     }
 
     const handleNeutralClick = () => {
-        setNeutral(neutral + 1)
+        const setNeutral = {
+            ...review,
+            neutral: review.neutral + 1,
+            all: review.all + 1,
+            positive: review.good * 100 / (review.all+1)
+        }
+        setReview(setNeutral)
     }
 
     const handleBadClick = () => {
-        setBad(bad + 1)
+        const setBad = {
+            ...review,
+            bad: review.bad + 1,
+            all: review.all + 1,
+            average: review.average - 1,
+            positive: review.good * 100 / (review.all+1)
+        }
+        setReview(setBad)
     }
 
     return (
@@ -31,10 +71,9 @@ const App = () => {
             <Button handleClick={handleGoodClick} text={"good"} />
             <Button handleClick={handleNeutralClick} text={"neutral"} />
             <Button handleClick={handleBadClick} text={"bad"} />
-            <h2>statistics</h2>
-            <p>good {good}</p>
-            <p>neutral {neutral}</p>
-            <p>bad {bad}</p>
+
+            <Statistics good={review.good} neutral={review.neutral} bad={review.bad} all={review.all} average={review.average} positive={review.positive} />
+
         </div>
     )
 }
