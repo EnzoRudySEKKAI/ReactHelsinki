@@ -1,58 +1,51 @@
+import Course from "./Course";
 const App = () => {
-    const course = {
-        name:'Half Stack application development',
-        parts : [{
-            name: 'Fundamentals of React',
-            exercises: 10
+    const courses = [
+        {
+            name: 'Half Stack application development',
+            id: 1,
+            parts: [
+                {
+                    name: 'Fundamentals of React',
+                    exercises: 10,
+                    id: 1
+                },
+                {
+                    name: 'Using props to pass data',
+                    exercises: 7,
+                    id: 2
+                },
+                {
+                    name: 'State of a component',
+                    exercises: 14,
+                    id: 3
+                },
+                {
+                    name: 'Redux',
+                    exercises: 11,
+                    id: 4
+                }
+            ]
         },
         {
-            name:'Using props to pass data',
-            exercises: 7
-        },
-        {
-            name: 'State of a component',
-            exercises: 14
-        }]
-    }
+            name: 'Node.js',
+            id: 2,
+            parts: [
+                {
+                    name: 'Routing',
+                    exercises: 3,
+                    id: 1
+                },
+                {
+                    name: 'Middlewares',
+                    exercises: 7,
+                    id: 2
+                }
+            ]
+        }
+    ]
 
-    return (
-        <div>
-            <Header course={course.name}/>
-            <Content parts={course.parts} />
-            <Total parts={course.parts} />
-        </div>
-    )
-}
-
-const Header = (props) => {
-    return (
-        <h1>{props.course}</h1>
-    )
-}
-
-const Content = (props) => {
-    const partsp = props.parts.map((part, index) => <Part part={part.name} exercises={part.exercises} key={index} />)
-    return (
-        <div>
-            {partsp}
-        </div>
-    )
-}
-
-const Part = (props) => {
-    return (
-        <p>{props.part} {props.exercises}</p>
-    )
-}
-
-const Total = (props) => {
-    let max = 0;
-    props.parts.forEach(part => {
-        max += part.exercises
-    })
-    return (
-        <p>Number of exercises {max}</p>
-    )
+    return courses.map(course => <Course key={course.id} course={course}/>)
 }
 
 export default App
