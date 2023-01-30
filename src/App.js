@@ -1,45 +1,45 @@
 import { useState } from 'react'
+import Note from './components/Note'
+const App = (props) => {
+    const [notes, setNotes] = useState(props.notes)
+    const [newNote, setNewNote] = useState('')
+    const [showAll, setShowAll] = useState(true)
 
-const History = ({allClicks}) => {
-    if (allClicks.length === 0) {
-        return (
+    const handleNoteChange = (event) => {
+        setNewNote(event.target.value)
+    }
+
+    const notesToShow = showAll ? notes : notes.filter(note => note.important)
+
+    const addNote = (event) => {
+        event.preventDefault()
+        const noteObject = {
+            content: newNote,
+            important: Math.random() > 0.5,
+            id: notes.length + 1,
+        }
+
+        setNotes(notes.concat(noteObject))
+        setNewNote('')
+    }
+
+    return (
+        <div>
+            <h1>Notes</h1>
             <div>
-                the app is used by pressing the buttons
+                <button onClick={() => setShowAll(!showAll)}>
+                    show {showAll ? 'important' : 'all'}
+                </button>
             </div>
-        )
-    }
-    return (
-        <div>
-            button press history: {allClicks.join(' ')}
-        </div>
-    )
-}
-
-const Button = ({ handleClick, text }) => (
-    <button onClick={handleClick}>
-        {text}
-    </button>
-)
-const App = () => {
-    const [clicks, setClicks] = useState({
-        left: 0, right: 0, allClicks: []
-    })
-
-    const handleLeftClick = (side) => () =>
-        setClicks({ ...clicks, left: clicks.left + 1 , allClicks: clicks.allClicks.concat(side) })
-
-    const handleRightClick = (side) => {
-        setClicks({ ...clicks, right: clicks.right + 1 , allClicks: clicks.allClicks.concat(side) })
-    }
-
-
-    return (
-        <div>
-            {clicks.left}
-            <Button handleClick={handleLeftClick("L")} text="left" />
-            <Button handleClick={() => handleRightClick("R")} text="right" />
-            {clicks.right}
-            <History allClicks={clicks.allClicks} />
+            <ul>
+                {notesToShow.map(note =>
+                    <Note key={note.id} note={note} />
+                )}
+            </ul>
+            <form onSubmit={addNote}>
+                <input value={newNote} onChange={handleNoteChange} />
+                <button type="submit">save</button>
+            </form>
         </div>
     )
 }
