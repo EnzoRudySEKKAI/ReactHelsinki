@@ -1,12 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 
+
 const App = () => {
-    const [persons, setPersons] = useState([
-        { name: 'Arto Hellas', number: '39-44-5323523', id: 1 }
-    ])
+    const [persons, setPersons] = useState([])
+
+    const hook = () => {
+        fetch('http://localhost:3001/persons')
+            .then(response => response.json())
+            .then(data => {
+                setPersons(data)
+            })
+    }
+
+    useEffect(hook, [])
 
     const [filter, setFilter] = useState('')
 
