@@ -2,16 +2,16 @@ import { useState, useEffect } from 'react'
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
-
+import axios from 'axios'
 
 const App = () => {
     const [persons, setPersons] = useState([])
 
     const hook = () => {
-        fetch('http://localhost:3001/persons')
-            .then(response => response.json())
-            .then(data => {
-                setPersons(data)
+        axios
+            .get('http://localhost:3001/persons')
+            .then(response => {
+                setPersons(response.data)
             })
     }
 
