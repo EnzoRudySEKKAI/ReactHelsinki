@@ -8,8 +8,7 @@ const Persons = ({ persons, setPersons }) => {
             personeService.deletePerson(id)
             .then(response => {
                 setPersons(persons.filter(p => p.id !== id))
-            }).
-            catch(error => {
+            }).catch(error => {
                 alert(
                     `the person '${person.name}' was already deleted from server`
                 )
