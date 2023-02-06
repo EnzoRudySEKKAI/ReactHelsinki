@@ -1,5 +1,5 @@
 import personeService from '../services/persons';
-const Persons = ({ persons, setPersons }) => {
+const Persons = ({ persons, setPersons, setNotification }) => {
 
     const deletePerson = (id) => {
         const person = persons.find(p => p.id === id)
@@ -9,9 +9,10 @@ const Persons = ({ persons, setPersons }) => {
             .then(response => {
                 setPersons(persons.filter(p => p.id !== id))
             }).catch(error => {
-                alert(
-                    `the person '${person.name}' was already deleted from server`
-                )
+                setNotification({messageNotif:`Information of ${person.name} has already been removed from server` , typeNotif:'error'})
+                setTimeout(() => {
+                    setNotification({messageNotif:'', typeNotif:''})
+                }, 5000)
                 setPersons(persons.filter(p => p.id !== id))
             })
         }

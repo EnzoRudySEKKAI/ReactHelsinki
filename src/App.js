@@ -8,7 +8,7 @@ import axios from 'axios'
 
 const App = () => {
     const [persons, setPersons] = useState([])
-    const [errorMessage, setErrorMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState({messageNotif: '', typeNotif: ''})
     const [filter, setFilter] = useState('')
     const hook = () => {
         axios
@@ -27,12 +27,12 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
-            <Notification message={errorMessage} />
+            <Notification  errorMessage={errorMessage.messageNotif} errorType={errorMessage.typeNotif} />
             <Filter setFilter={setFilter}/>
             <h3>Add a new</h3>
             <PersonForm persons={persons} setPersons={setPersons} setNotification={setErrorMessage}/>
             <h2>Numbers</h2>
-            <Persons persons={personsToShow} setPersons={setPersons}/>
+            <Persons persons={personsToShow} setPersons={setPersons} setNotification={setErrorMessage}/>
         </div>
     )
 }

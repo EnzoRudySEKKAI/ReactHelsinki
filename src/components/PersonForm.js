@@ -24,9 +24,9 @@ const PersonForm = ({persons, setPersons, setNotification}) => {
                     setPersons(persons.map(p => p.id !== person.id ? p : response))
                     setNewName('')
                     setNewNumber('')
-                    setNotification(`Changed ${person.name}'s number`)
+                    setNotification({messageNotif:`Changed ${person.name}'s number`, typeNotif:'notif'})
                     setTimeout(() => {
-                        setNotification('')
+                        setNotification({messageNotif:'', typeNotif:''})
                     }, 5000)
                 })
             }
@@ -38,9 +38,9 @@ const PersonForm = ({persons, setPersons, setNotification}) => {
             }
             personsServices.create(personObject).then(response => {
                 setPersons(persons.concat(response))
-                setNotification(`Added ${personObject.name}`)
+                setNotification({messageNotif:`Added ${personObject.name}` , typeNotif:'notif'})
                 setTimeout(() => {
-                    setNotification('')
+                    setNotification({messageNotif:'', typeNotif:''})
                 }, 5000)
                 setNewName('')
                 setNewNumber('')
