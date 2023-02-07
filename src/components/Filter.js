@@ -1,4 +1,3 @@
-
 const Filter = ({setFilter}) => {
 
     const handleFilterChange = (event) => {
