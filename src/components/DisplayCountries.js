@@ -1,6 +1,6 @@
-const DisplayCountries = ({ countries, filter }) => {
+import ButtonShow from "./ButtonShow";
 
-
+const DisplayCountries = ({ countries, filter, setFilter }) => {
 
     const countriesToShow = filter === '' ? countries : countries.filter(country => country.name.common.toLowerCase().includes(filter.toLowerCase()))
 
@@ -28,7 +28,7 @@ const DisplayCountries = ({ countries, filter }) => {
     else{
         return (
             <div>
-                {countriesToShow.map(country => <p key={country.name.common}>{country.name.common} </p>)}
+                {countriesToShow.map(country => <p key={country.name.common}>{country.name.common} <ButtonShow show={country} setShow={setFilter} /></p>)}
             </div>
         )
     }
